@@ -1,0 +1,44 @@
+{
+  "name": "nest-agenda-jobs",
+  "version": "0.1.0",
+  "description": "Bull tasks wrapper for NestJS framework",
+  "author": "Konstantin Vinogradov",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "cross-env APP_PORT=3010 ts-node examples/main.ts",
+    "start:dev": "nodemon --exec cross-env APP_PORT=3010 ts-node -- examples/main.ts",
+    "build": "tsc -p tsconfig.json",
+    "lint": "tslint -c tslint.json lib/**/*.ts",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinks/nest-agenda-jobs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vinks/nest-agenda-jobs/issues"
+  },
+  "homepage": "https://github.com/vinks/nest-agenda-jobs",
+  "dependencies": {
+    "@nestjs/common": "^5.5.0",
+    "@nestjs/core": "^5.5.0",
+    "agenda": "^2.0.2",
+    "bluebird": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/agenda": "^2.0.4",
+    "@types/node": "^7.0.41",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.9",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.3.3",
+    "rxjs-compat": "^6.3.3",
+    "ts-loader": "^5.3.1",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.7.0",
+    "tslint": "^5.12.0",
+    "typescript": "^2.7.2"
+  }
+}
