@@ -31,8 +31,7 @@ export class AppTasks {
 }
 
 import { Controller, Get } from '@nestjs/common';
-import * as Bull from 'bull';
-import { BullService } from '../lib';
+import { AgendaService } from '../lib';
 import { AppTasks } from './app.tasks';
 
 @Controller('app')
