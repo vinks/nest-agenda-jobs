@@ -36,13 +36,25 @@ export class AgendaTaskRegisterService {
             throw new InvalidModuleRefException();
         }
 
-        const instance = this.moduleRef.get(tasks);
+        if (Array.isArray(tasks)) {
+            tasks.forEach(async (task) => {
+                const instance = this.moduleRef.get(task);
 
-        if (!instance) {
-            return;
+                if (!instance) {
+                    return;
+                }
+
+                await this.createTasks(instance, metaData);
+            });
+        } else {
+            const instance = this.moduleRef.get(tasks);
+
+            if (!instance) {
+                return;
+            }
+
+            await this.createTasks(instance, metaData);
         }
-
-        await this.createTasks(instance, metaData);
     }
 
     async createTasks(instance, metaData?: TaskRegisterMetadata) {

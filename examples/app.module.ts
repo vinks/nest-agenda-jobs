@@ -2,12 +2,13 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { AgendaModule, AgendaTaskRegisterService, AgendaService } from '../lib';
 import { AppTasks } from './app.tasks';
+import { AnotherTasks } from './another.tasks';
 import { AppController } from './app.controller';
 
 @Module({
   imports: [AgendaModule],
   controllers: [AppController],
-  providers: [AppTasks],
+  providers: [AppTasks, AnotherTasks],
 })
 export class AppModule implements OnModuleInit {
   constructor(
@@ -17,7 +18,7 @@ export class AppModule implements OnModuleInit {
   async onModuleInit() {
       this.taskRegister.setModuleRef(this.moduleRef);
 
-      await this.taskRegister.register(AppTasks, {
+      await this.taskRegister.register([AppTasks, AnotherTasks], {
         collection: 'test',
         options: {
           db: {

@@ -14,9 +14,9 @@ async function addFunc(a, b) {
 }
 
 @Injectable()
-export class AppTasks {
-    @Task({ name: 'justATest' })
-    async justATest(job: Agenda.Job, done) {
+export class AnotherTasks {
+    @Task({ name: 'justAnotherTest' })
+    async justAnotherTest(job: Agenda.Job, done) {
         const result = await addFunc(
             job.attrs.data.a,
             job.attrs.data.b,
