@@ -27,12 +27,9 @@ export class AnotherTasks {
         }
 
         job.attrs.data.extra = [];
-        job.schedule('in 1 minute');
         job.save();
 
-        console.log('Result', result);
-
-        job.schedule('in 5 seconds');
+        console.log('Result justAnotherTest', result);
 
         done(null, result);
     }

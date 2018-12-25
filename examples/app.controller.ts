@@ -1,12 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 import { AgendaService } from '../lib';
 import { AppTasks } from './app.tasks';
+import { AnotherTasks } from './another.tasks';
+import { ObjectID } from 'mongodb';
 
 @Controller('app')
 export class AppController {
     constructor(
         private readonly agendaService: AgendaService,
-        private readonly tasks: AppTasks,
+        private readonly appTasks: AppTasks,
+        private readonly anotherTasks: AnotherTasks,
     ) {}
 
     @Get('run')
@@ -14,8 +17,14 @@ export class AppController {
         const a = 1;
         const b = 2;
 
-        await this.agendaService.createJob(this.tasks.justATest, {
+        await this.agendaService.createJob(this.appTasks.justATest, {
             type: 'now',
+            autoRemove: false,
+        }, {a, b});
+
+        await this.agendaService.createJob(this.anotherTasks.justAnotherTest, {
+            type: 'schedule',
+            interval: 'in 15 seconds',
             autoRemove: false,
         }, {a, b});
 
@@ -24,7 +33,7 @@ export class AppController {
 
     @Get('jobs')
     public async getJobs() {
-        const jobs = await this.agendaService.getJobs({ name: 'justATest' });
+        const jobs = await this.agendaService.getJobs({ name: 'justATest', _id: '5c221a195251fa55ac7027dd' });
 
         return jobs;
     }

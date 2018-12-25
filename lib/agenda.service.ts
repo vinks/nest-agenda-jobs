@@ -4,6 +4,7 @@ import { FancyLoggerService } from './fancy-logger.service';
 import { Controller } from '@nestjs/common/interfaces';
 import * as Agenda from 'agenda';
 import * as Bluebird from 'bluebird';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class AgendaService {
@@ -71,7 +72,13 @@ export class AgendaService {
     public async getJobs(queryParams: any) {
         const metadata: TaskMetadata = this.tasks[queryParams.name];
         const agenda: Agenda = this.getAgenda(metadata.collection);
-        const jobs = await agenda.jobs(queryParams);
+        let jobs;
+
+        if (queryParams._id) {
+            jobs = await agenda.jobs({ _id: new ObjectId(queryParams._id) });
+        } else {
+            jobs = await agenda.jobs(queryParams);
+        }
 
         return jobs;
     }
