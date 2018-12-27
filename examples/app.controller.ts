@@ -38,6 +38,13 @@ export class AppController {
         return jobs;
     }
 
+    @Get('requeue')
+    public async requeueJob() {
+        const jobs = await this.agendaService.requeueJobs({ name: 'justATest', _id: '5c24b429557a0340d461955d' });
+
+        return jobs;
+    }
+
     @Get('cancel')
     public async cancelJobs() {
         const jobs = await this.agendaService.cancelJobs({ name: 'justATest' });

@@ -69,7 +69,7 @@ export class AgendaService {
         return job;
     }
 
-    public async getJobs(queryParams: any) {
+    public async getJobs(queryParams: any): Promise<Agenda.Job[]> {
         const metadata: TaskMetadata = this.tasks[queryParams.name];
         const agenda: Agenda = this.getAgenda(metadata.collection);
         let jobs;
@@ -81,6 +81,17 @@ export class AgendaService {
         }
 
         return jobs;
+    }
+
+    public async requeueJobs(queryParams: any) {
+        const jobs: Agenda.Job[] = await this.getJobs(queryParams);
+
+        const metadata: TaskMetadata = this.tasks[queryParams.name];
+        const agenda: Agenda = this.getAgenda(metadata.collection);
+
+        const requeuedJobs = jobs.map((job: Agenda.Job) => agenda.create(job.attrs.name, job.attrs.data).save());
+
+        return Promise.all(requeuedJobs);
     }
 
     public async cancelJobs(queryParams: any) {
