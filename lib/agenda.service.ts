@@ -98,7 +98,13 @@ export class AgendaService {
         const metadata: TaskMetadata = this.tasks[queryParams.name];
         const agenda: Agenda = this.getAgenda(metadata.collection);
 
-        const numRemoved = await agenda.cancel(queryParams);
+        let numRemoved;
+
+        if (queryParams._id) {
+            numRemoved = await agenda.cancel({ _id: new ObjectId(queryParams._id) });
+        } else {
+            numRemoved = await agenda.cancel(queryParams);
+        }
 
         return numRemoved;
     }
