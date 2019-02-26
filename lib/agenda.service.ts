@@ -89,7 +89,7 @@ export class AgendaService {
         const metadata: TaskMetadata = this.tasks[queryParams.name];
         const agenda: Agenda = this.getAgenda(metadata.collection);
 
-        const requeuedJobs = jobs.map((job: Agenda.Job) => agenda.create(job.attrs.name, job.attrs.data).save());
+        const requeuedJobs = jobs.map((job: Agenda.Job) => agenda.now(job.attrs.name, job.attrs.data));
 
         return Promise.all(requeuedJobs);
     }

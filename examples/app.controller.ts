@@ -22,12 +22,6 @@ export class AppController {
             autoRemove: false,
         }, {a, b});
 
-        await this.agendaService.createJob(this.anotherTasks.justAnotherTest, {
-            type: 'schedule',
-            interval: 'in 15 seconds',
-            autoRemove: false,
-        }, {a, b});
-
         return true;
     }
 
@@ -40,7 +34,7 @@ export class AppController {
 
     @Get('requeue')
     public async requeueJob() {
-        const jobs = await this.agendaService.requeueJobs({ name: 'justATest', _id: '5c24b429557a0340d461955d' });
+        const jobs = await this.agendaService.requeueJobs({ name: 'justATest', _id: '5c75296bb2372b111c842412' });
 
         return jobs;
     }

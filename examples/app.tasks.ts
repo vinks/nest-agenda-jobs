@@ -29,7 +29,7 @@ export class AppTasks {
         job.attrs.data.extra = [];
         job.save();
 
-        console.log('Result justATest', result);
+        console.log('Result justATest', result, new Date().toString());
 
         done(null, result);
     }
