@@ -14,8 +14,8 @@ export class AppController {
 
     @Get('run')
     public async runTask() {
-        const a = 1;
-        const b = 2;
+        const a = Math.floor(Math.random() * 10) + 1;
+        const b = Math.floor(Math.random() * 10) + 1;
 
         await this.agendaService.createJob(this.appTasks.justATest, {
             type: 'now',
@@ -27,14 +27,21 @@ export class AppController {
 
     @Get('jobs')
     public async getJobs() {
-        const jobs = await this.agendaService.getJobs({ name: 'justATest', _id: '5c221a195251fa55ac7027dd' });
+        const jobs = await this.agendaService.getJobs({ name: 'justATest' });
+
+        return jobs;
+    }
+
+    @Get('rerun')
+    public async rerunJobs() {
+        const jobs = await this.agendaService.rerunJobs({ name: 'justATest' });
 
         return jobs;
     }
 
     @Get('requeue')
     public async requeueJob() {
-        const jobs = await this.agendaService.requeueJobs({ name: 'justATest', _id: '5c75296bb2372b111c842412' });
+        const jobs = await this.agendaService.requeueJobs({ name: 'justATest' });
 
         return jobs;
     }

@@ -21,24 +21,24 @@
   },
   "homepage": "https://github.com/vinks/nest-agenda-jobs",
   "dependencies": {
-    "@nestjs/common": "^5.5.0",
-    "@nestjs/core": "^5.5.0",
+    "@nestjs/common": "^5.7.4",
+    "@nestjs/core": "^5.7.4",
     "agenda": "^2.0.2",
-    "bluebird": "^3.5.3"
+    "bluebird": "^3.5.5"
   },
   "devDependencies": {
     "@types/agenda": "^2.0.4",
     "@types/node": "^10.12.18",
     "cross-env": "^5.2.0",
-    "express": "^4.16.4",
-    "nodemon": "^1.18.9",
-    "reflect-metadata": "^0.1.12",
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.3",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.2",
+    "rxjs-compat": "^6.5.2",
     "ts-loader": "^5.3.1",
     "ts-node": "^7.0.1",
-    "tsconfig-paths": "^3.7.0",
-    "tslint": "^5.12.0",
-    "typescript": "^3.2.2"
+    "tsconfig-paths": "^3.8.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   }
 }

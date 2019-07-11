@@ -10,6 +10,9 @@ async function sleep(delay) {
 
 async function addFunc(a, b) {
     await sleep(2);
+
+    console.log('-->', a, b);
+
     return a + b;
 }
 

@@ -94,6 +94,20 @@ export class AgendaService {
         return Promise.all(requeuedJobs);
     }
 
+    public async rerunJobs(queryParams: any) {
+        const jobs: Agenda.Job[] = await this.getJobs(queryParams);
+
+        const metadata: TaskMetadata = this.tasks[queryParams.name];
+        const agenda: Agenda = this.getAgenda(metadata.collection);
+
+        const rerunJobs = jobs.map((job: Agenda.Job) => {
+            job.attrs.nextRunAt = new Date();
+            job.save();
+        });
+
+        return Promise.all(jobs);
+    }
+
     public async cancelJobs(queryParams: any) {
         const metadata: TaskMetadata = this.tasks[queryParams.name];
         const agenda: Agenda = this.getAgenda(metadata.collection);
