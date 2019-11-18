@@ -21,6 +21,7 @@ export class AppModule implements OnModuleInit {
       await this.taskRegister.register([AppTasks], {
         collection: 'test',
         completedCollection: 'agendaCompleted',
+        isCompleted: (jobAttr) => !!jobAttr.lastFinishedAt,
         options: {
           db: {
             address: 'mongodb://127.0.0.1/agendaTasks',

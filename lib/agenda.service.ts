@@ -129,14 +129,16 @@ export class AgendaService {
 
     private async createAgenda({
         options,
-        completedCollection
+        completedCollection,
+        isCompleted,
     }: {
         options ?: Agenda.AgendaConfiguration;
         completedCollection?: string;
+        isCompleted?: TaskMetadata['isCompleted'];
     }): Bluebird<Agenda> {
         const agenda: AgendaNest = new Agenda(options);
 
-        let completedCol;
+        let completedCol: any;
 
         return new Promise((resolve) => {
             agenda.on('ready', async () => {
@@ -151,10 +153,7 @@ export class AgendaService {
             });
 
             agenda.on('complete', async (job: Agenda.Job) => {
-                if (
-                    completedCollection &&
-                    (job.attrs.data.completed === true || job.attrs.data.completed === undefined)
-                ) {
+                if (completedCollection && isCompleted(job.attrs)) {
                     completedCol.insertOne(job.attrs);
                     job.remove();
                 }
