@@ -69,6 +69,10 @@ export class AgendaTaskRegisterService {
                     Object.assign(metadata, { completedCollection: metaData.completedCollection });
                 }
 
+                if (metaData.isCompleted) {
+                    Object.assign(metadata, { isCompleted: metaData.isCompleted });
+                }
+
                 if (metaData.options) {
                     Object.assign(metadata, {
                         options: Object.assign({}, metadata.options || {}, metaData.options),

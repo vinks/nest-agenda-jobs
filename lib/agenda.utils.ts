@@ -5,6 +5,8 @@ import { TASK_METADATA, TASK_CONFIGURATION_METADATA } from './agenda.constants';
 export interface TaskMetadata {
     name: string;
     collection?: string;
+    completedCollection?: string;
+    isCompleted?: (jobAttr: JobAttributes) => boolean;
     concurrency?: number;
     options?: AgendaConfiguration;
 }
@@ -12,7 +14,7 @@ export interface TaskMetadata {
 export interface TaskRegisterMetadata {
     collection?: string;
     completedCollection?: string;
-    isCompleted: (jobAttr: JobAttributes) => boolean;
+    isCompleted?: (jobAttr: JobAttributes) => boolean;
     concurrency?: number;
     options?: AgendaConfiguration;
 }
