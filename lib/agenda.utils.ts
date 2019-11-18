@@ -11,6 +11,7 @@ export interface TaskMetadata {
 
 export interface TaskRegisterMetadata {
     collection?: string;
+    completedCollection?: string;
     concurrency?: number;
     options?: AgendaConfiguration;
 }

@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
 import { TaskMetadataExplorer } from './agenda-task-metadata.explorer';
-import { FancyLoggerService } from './fancy-logger.service';
 import { AgendaService } from './agenda.service';
 import { TaskRegisterMetadata } from './agenda.utils';
 
@@ -17,14 +16,12 @@ export class AgendaTaskRegisterService {
     private moduleRef: ModuleRef = null;
     private readonly moduleName: string = 'AgendaModule';
     private readonly metadataExplorer: TaskMetadataExplorer;
-    private readonly fancyLogger: FancyLoggerService;
+    private logger: Logger = new Logger('Agenda tasks');
 
     constructor(private readonly agendaService: AgendaService) {
         this.metadataExplorer = new TaskMetadataExplorer(
             new MetadataScanner(),
         );
-
-        this.fancyLogger = new FancyLoggerService();
     }
 
     setModuleRef(moduleRef) {
@@ -68,6 +65,10 @@ export class AgendaTaskRegisterService {
                     Object.assign(metadata, { collection: metaData.collection });
                 }
 
+                if (metaData.completedCollection) {
+                    Object.assign(metadata, { completedCollection: metaData.completedCollection });
+                }
+
                 if (metaData.options) {
                     Object.assign(metadata, {
                         options: Object.assign({}, metadata.options || {}, metaData.options),
@@ -77,11 +78,13 @@ export class AgendaTaskRegisterService {
 
             await this.agendaService.registerTask(task, metadata, instance);
 
-            const desc: string = `Registered task ${metadata.name}`
-                + `${(metadata.collection) ? ' on collection ' + metadata.collection : ''}`
-                + `${(metadata.concurrency) ? ' with a concurrency of ' + metadata.concurrency : ''}`;
+            const taskDesc = {
+                name: metadata.name,
+                collection: metadata.collection,
+                concurrency: metadata.concurrency,
+            };
 
-            this.fancyLogger.info(this.moduleName, desc, 'TaskExplorer');
+            this.logger.log(JSON.stringify(taskDesc), 'Agenda register task');
         }
     }
 }

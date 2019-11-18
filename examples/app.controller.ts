@@ -20,6 +20,7 @@ export class AppController {
         await this.agendaService.createJob(this.appTasks.justATest, {
             type: 'now',
             autoRemove: false,
+            removeOnComlete: () => true,
         }, {a, b});
 
         return true;

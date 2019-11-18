@@ -18,11 +18,13 @@ export class AppModule implements OnModuleInit {
   async onModuleInit() {
       this.taskRegister.setModuleRef(this.moduleRef);
 
-      await this.taskRegister.register([AppTasks, AnotherTasks], {
+      await this.taskRegister.register([AppTasks], {
         collection: 'test',
+        completedCollection: 'agendaCompleted',
         options: {
           db: {
-            address: 'mongodb://127.0.0.1/agenda',
+            address: 'mongodb://127.0.0.1/agendaTasks',
+            collection: 'agendaJobs1',
             options: {
               useNewUrlParser: true,
             },

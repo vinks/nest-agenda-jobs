@@ -1,10 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { TaskMetadata } from './agenda.utils';
-import { FancyLoggerService } from './fancy-logger.service';
 import { Controller } from '@nestjs/common/interfaces';
 import * as Agenda from 'agenda';
 import * as Bluebird from 'bluebird';
 import { ObjectId } from 'mongodb';
+
+interface AgendaNest extends Agenda {
+    _collection?: any;
+    _db?: any;
+    _mdb?: any;
+    db_init?: any;
+    _indices?: any;
+}
 
 @Injectable()
 export class AgendaService {
@@ -19,16 +26,13 @@ export class AgendaService {
     private agendas: { [name: string]: Agenda } = {};
     private tasks: { [name: string]: TaskMetadata } = {};
     private debugActive: boolean = false;
+    private logger: Logger = new Logger('Agenda service');
 
-    constructor(
-        private readonly fancyLogger: FancyLoggerService,
-    ) {}
-
-    public async registerTask(task: (job, done) => void, metadata: TaskMetadata, ctrl: Controller) {
+    public async registerTask(task: (job: Agenda.Job, done) => void, metadata: TaskMetadata, ctrl: Controller) {
         const agendaName: string = metadata.collection || AgendaService.DEFAULT_AGENDA_NAME;
 
         if (!this.agendas[agendaName]) {
-            this.agendas[agendaName] = await this.createAgenda(metadata.options);
+            this.agendas[agendaName] = await this.createAgenda(metadata);
         }
 
         this.agendas[agendaName].define(metadata.name, async (j, d) => {
@@ -123,12 +127,37 @@ export class AgendaService {
         return numRemoved;
     }
 
-    private async createAgenda(agendaOptions?: Agenda.AgendaConfiguration ): Bluebird<Agenda> {
-        const agenda: Agenda = new Agenda(agendaOptions);
+    private async createAgenda({
+        options,
+        completedCollection
+    }: {
+        options ?: Agenda.AgendaConfiguration;
+        completedCollection?: string;
+    }): Bluebird<Agenda> {
+        const agenda: AgendaNest = new Agenda(options);
+
+        let completedCol;
 
         return new Promise((resolve) => {
             agenda.on('ready', async () => {
                 await agenda.start();
+
+                if (completedCollection) {
+                    completedCol = agenda._mdb.collection(completedCollection);
+                    completedCol.createIndex(agenda._indices, {name: 'findAndLockNextJobIndex'}, (err: any) => {
+                        this.logger.error(err);
+                    });
+                }
+            });
+
+            agenda.on('complete', async (job: Agenda.Job) => {
+                if (
+                    completedCollection &&
+                    (job.attrs.data.completed === true || job.attrs.data.completed === undefined)
+                ) {
+                    completedCol.insertOne(job.attrs);
+                    job.remove();
+                }
             });
 
             resolve(agenda);
