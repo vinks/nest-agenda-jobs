@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TaskMetadata } from './agenda.utils';
+import { TaskMetadata, TaskRegisterMetadata } from './agenda.utils';
 import { Controller } from '@nestjs/common/interfaces';
 import * as Agenda from 'agenda';
 import * as Bluebird from 'bluebird';
@@ -134,7 +134,7 @@ export class AgendaService {
     }: {
         options ?: Agenda.AgendaConfiguration;
         completedCollection?: string;
-        isCompleted?: TaskMetadata['isCompleted'];
+        isCompleted?: TaskRegisterMetadata['isCompleted'];
     }): Bluebird<Agenda> {
         const agenda: AgendaNest = new Agenda(options);
 
