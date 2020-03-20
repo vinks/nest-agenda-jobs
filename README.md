@@ -16,7 +16,7 @@ $ npm i --save nest-agenda-jobs
 
 ```ts
 import { Injectable } from '@nestjs/common';
-import { Task } from '../lib';
+import { Task } from 'nest-agenda-jobs';
 
 @Injectable()
 export class AppTasks {
@@ -31,7 +31,7 @@ export class AppTasks {
 }
 
 import { Controller, Get } from '@nestjs/common';
-import { AgendaService } from '../lib';
+import { AgendaService } from 'nest-agenda-jobs';
 import { AppTasks } from './app.tasks';
 
 @Controller('app')
@@ -56,7 +56,7 @@ export class AppController {
 
 import { Module, OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { AgendaModule, AgendaTaskRegisterService, AgendaService } from '../lib';
+import { AgendaModule, AgendaTaskRegisterService, AgendaService } from 'nest-agenda-jobs';
 import { AppTasks } from './app.tasks';
 import { AppController } from './app.controller';
 
