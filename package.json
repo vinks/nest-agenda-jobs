@@ -24,7 +24,7 @@
     "@nestjs/common": "^5.1.0 || ^6.0.3"
   },
   "dependencies": {
-    "agenda": "^2.1.0",
+    "agenda": "^2.3.0",
     "bluebird": "^3.7.1"
   },
   "devDependencies": {
