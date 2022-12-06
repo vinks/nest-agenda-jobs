@@ -30,7 +30,7 @@
   "devDependencies": {
     "@nestjs/common": "^6.10.1",
     "@nestjs/core": "^6.10.1",
-    "@nestjs/platform-express": "6.10.1",
+    "@nestjs/platform-express": "9.2.1",
     "@types/agenda": "^2.0.6",
     "@types/node": "^12.12.8",
     "cross-env": "^6.0.3",
